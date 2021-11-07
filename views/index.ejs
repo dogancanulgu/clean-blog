@@ -31,12 +31,13 @@
               <%= posts[i].title %>
             </h2>
             <h3 class="post-subtitle">
-              <%= posts[i].detail %>
+              <%= posts[i].detail.split(" ").splice(0,12).join(" ") %> <% if(posts[i].detail.split(" ").length > 12) {%>...<% } %>
             </h3>
           </a>
           <p class="post-meta">
-            on September 24, 2019
-          <%= posts[i].dateCreated %> </p>
+            on 
+            <%= moment(posts[i].dateCreated).format('MMMM DD YYYY') %>
+           </p>
         </div>
         <hr>
 

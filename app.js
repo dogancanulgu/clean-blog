@@ -1,7 +1,9 @@
 const express = require('express'); // import express
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const ejs = require('ejs');
-const Post = require('./models/Post');
+const postControllers = require('./controllers/postControllers');
+const pageControllers = require('./controllers/pageControllers');
 
 const app = express(); // start express
 
@@ -15,30 +17,22 @@ app.set('view engine', 'ejs');
 app.use(express.static('public')); // static web
 app.use(express.urlencoded({ extended: true })); // reading post
 app.use(express.json());
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 // routes
-app.get('/', async (req, res) => {
-  const posts = await Post.find({});
-  res.render('index', { posts });
-});
+app.get('/', postControllers.getAllPosts);
+app.get('/posts/:id', postControllers.getPost);
+app.post('/posts', postControllers.createPost);
+app.put('/posts/:id', postControllers.updatePost);
+app.delete('/posts/:id', postControllers.deletePost);
 
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-
-app.get('/add', (req, res) => {
-  res.render('add');
-});
-
-app.get('/posts/:id', async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  res.render('post', { post });
-});
-
-app.post('/posts', async (req, res) => {
-  await Post.create(req.body);
-  res.redirect('/');
-});
+app.get('/about', pageControllers.getAboutPage);
+app.get('/add', pageControllers.getAddPage);
+app.get('/posts/edit/:id', pageControllers.getEditPage);
 
 // port
 const port = 3000;

@@ -29,6 +29,16 @@
           <p> <%= post.detail %> <p>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="text-center">
+            <a href="/posts/edit/<%= post._id %>" class="btn btn-info">Update Post</a>										
+            <a href="/posts/<%= post._id %>?_method=DELETE" class="btn btn-danger btn-info" onclick="return confirm('Are you sure to delete this post?')">
+              Delete Post
+            </a>	
+          </div>	
+        </div>
+      </div>
     </div>
   </article>
 
