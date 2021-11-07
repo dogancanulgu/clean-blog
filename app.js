@@ -8,7 +8,12 @@ const pageControllers = require('./controllers/pageControllers');
 const app = express(); // start express
 
 // connect db
-mongoose.connect('mongodb://localhost/cleanblog-test-db');
+mongoose
+  .connect(
+    'mongodb+srv://dogancan:iIbCikh189LjTvFq@cluster0.py8zw.mongodb.net/clean-blog-db?retryWrites=true&w=majority'
+  )
+  .then(() => console.log('DB Connected!'))
+  .catch((err) => console.log(err));
 
 // template engine
 app.set('view engine', 'ejs');
@@ -35,7 +40,7 @@ app.get('/add', pageControllers.getAddPage);
 app.get('/posts/edit/:id', pageControllers.getEditPage);
 
 // port
-const port = 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server has been bounded at ${port}.`);
 });
